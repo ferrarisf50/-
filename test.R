@@ -1,22 +1,27 @@
-test<- read.table("c:/users/ferrarisf50/desktop/test.csv",sep = ",",header=TRUE);
+library(xlsx)
+setwd("C:/Users/ferrarisf50/Desktop/Sanguosha_ranking")
+
+test<- read.xlsx("test.xlsx",sheetIndex=2,header=TRUE,encoding="UTF-8");
 test<- test[,3:5]
 
-test2<- read.table("c:/users/ferrarisf50/desktop/test2.csv",sep = ",",header=TRUE);
+test2<- read.xlsx("test.xlsx",sheetIndex=3,header=TRUE,encoding="UTF-8");
 test2<- test2[,3:5]
 
 
-test3<- read.table("c:/users/ferrarisf50/desktop/test3.csv",sep = ",",header=TRUE);
+test3<- read.xlsx("test.xlsx",sheetIndex=4,header=TRUE,encoding="UTF-8");
 test3<- test3[,3:5]
 
-test <- na.omit(rbind(test,test2,test3))
+test4<- read.xlsx("test.xlsx",sheetIndex=5,header=TRUE,encoding="UTF-8");
+test4<- test4[,3:5]
+
+test <- na.omit(rbind(test,test2,test3,test4))
 
 
 
-warrior<- read.table("c:/users/ferrarisf50/desktop/warrior.csv",sep = ",",header=TRUE);   ##读取武将编号文件
+warrior<- read.xlsx("test.xlsx",sheetIndex=1,header=TRUE,encoding="UTF-8");   ##读取武将编号文件
 
-n_warrior <- 187
-n_game <- 7384
-
+n_warrior <- 190
+n_game <- nrow(test)
 count_m <- matrix(data=0,n_warrior,n_warrior)   ## 武将i对阵武将j先手胜场数
 total_m <- matrix(data=0,n_warrior,n_warrior)    ## 武将i对阵武将j先手场数
 tran1_m <- matrix(data=0,n_warrior,n_warrior)     ## 转移矩阵
@@ -78,7 +83,7 @@ rank_v <- steadyStates(chain_m)          ## 求稳定状态概率
 
 
 rr <-order(rank_v,decreasing = TRUE)   ##稳定概率最终排名
-warrior[rr,]
+cbind(c(1:nrow(warrior)),warrior[rr,])
 
 ranking <- warrior[rr,]
  n <- ranking[,3]>=3.5
