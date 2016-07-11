@@ -1,5 +1,5 @@
 library(xlsx)
-setwd("C:/Users/ferrarisf50/Desktop/Sanguosha_ranking")
+setwd("C:/Users/ferra/Desktop/My project/Sanguosha_ranking")
 
 test<- read.xlsx("test.xlsx",sheetIndex=2,header=TRUE,encoding="UTF-8");
 test<- test[,3:5]
@@ -14,13 +14,24 @@ test3<- test3[,3:5]
 test4<- read.xlsx("test.xlsx",sheetIndex=5,header=TRUE,encoding="UTF-8");
 test4<- test4[,3:5]
 
-test <- na.omit(rbind(test,test2,test3,test4))
+test5<- read.xlsx("test.xlsx",sheetIndex=6,header=TRUE,encoding="UTF-8");
+test5<- test5[,3:5]
+
+test6<- read.xlsx("test.xlsx",sheetIndex=7,header=TRUE,encoding="UTF-8");
+test6<- test6[,3:5]
+
+test7<- read.xlsx("test.xlsx",sheetIndex=8,header=TRUE,encoding="UTF-8");
+test7<- test7[,3:5]
+
+
+
+test <- na.omit(rbind(test,test2,test3,test4,test5,test6,test7))
 
 
 
 warrior<- read.xlsx("test.xlsx",sheetIndex=1,header=TRUE,encoding="UTF-8");   ##读取武将编号文件
 
-n_warrior <- 190
+n_warrior <- 192
 n_game <- nrow(test)
 count_m <- matrix(data=0,n_warrior,n_warrior)   ## 武将i对阵武将j先手胜场数
 total_m <- matrix(data=0,n_warrior,n_warrior)    ## 武将i对阵武将j先手场数
@@ -86,13 +97,13 @@ rr <-order(rank_v,decreasing = TRUE)   ##稳定概率最终排名
 cbind(c(1:nrow(warrior)),warrior[rr,])
 
 ranking <- warrior[rr,]
- n <- ranking[,3]>=3.5
-hp <- ranking[n,]
-hp
-write.table(hp,"c:/users/ferrarisf50/desktop/cup.csv",sep = ",")
+# n <- ranking[,3]>=3.5
+#hp <- ranking[n,]
+#hp
+#write.table(hp,"c:/users/ferra/desktop/cup.csv",sep = ",")
 
-nrow[hp]
-warrior
+#nrow[hp]
+#warrior
 ###
 
 ##c1<- cbind(diag(tran1_m))   ##胜率排名
