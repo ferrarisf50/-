@@ -1,8 +1,8 @@
 library(xlsx)
 setwd("C:/Users/ferra/Desktop/My project/Sanguosha_ranking")
 
-test<- read.xlsx("test.xlsx",sheetIndex=2,header=TRUE,encoding="UTF-8");
-test<- test[,3:5]
+test1<- read.xlsx("test.xlsx",sheetIndex=2,header=TRUE,encoding="UTF-8");
+test1<- test1[,3:5]
 
 test2<- read.xlsx("test.xlsx",sheetIndex=3,header=TRUE,encoding="UTF-8");
 test2<- test2[,3:5]
@@ -25,13 +25,13 @@ test7<- test7[,3:5]
 
 
 
-test <- na.omit(rbind(test,test2,test3,test4,test5,test6,test7))
+test <- na.omit(rbind(test1,test2,test3,test4,test5,test6,test7))
 
 
 
 warrior<- read.xlsx("test.xlsx",sheetIndex=1,header=TRUE,encoding="UTF-8");   ##读取武将编号文件
 
-n_warrior <- 192
+n_warrior <- 224
 n_game <- nrow(test)
 count_m <- matrix(data=0,n_warrior,n_warrior)   ## 武将i对阵武将j先手胜场数
 total_m <- matrix(data=0,n_warrior,n_warrior)    ## 武将i对阵武将j先手场数
@@ -93,7 +93,11 @@ chain_m<-new("markovchain",transitionMatrix=tran1_m)    ## 定义markov链
 rank_v <- steadyStates(chain_m)          ## 求稳定状态概率
 
 
-rr <-order(rank_v,decreasing = TRUE)   ##稳定概率最终排名
+rr <-order(rank_v[2,],decreasing = FALSE)   ##稳定概率最终排名
+r1 <- rr[1:50]
+
+
+
 cbind(c(1:nrow(warrior)),warrior[rr,])
 
 ranking <- warrior[rr,]
