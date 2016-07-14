@@ -73,6 +73,12 @@ for (i in 1:n_warrior)
 }
 
 
+colnames(tran1_m) <- warrior[,1]
+rownames(tran1_m) <- warrior[,1]
+temp<-tran1_m
+temp2<-empty_m
+
+
 for (i in 1:n_warrior)
 {
   for (j in 1:n_warrior)
@@ -85,8 +91,7 @@ for (i in 1:n_warrior)
 
 
 library(markovchain)      ##调用markovchain package
-colnames(tran1_m) <- warrior[,1]
-rownames(tran1_m) <- warrior[,1]
+
 
 chain_m<-new("markovchain",transitionMatrix=tran1_m)    ## 定义markov链
 
@@ -94,13 +99,41 @@ rank_v <- steadyStates(chain_m)          ## 求稳定状态概率
 
 
 rr <-order(rank_v[2,],decreasing = FALSE)   ##稳定概率最终排名
-r1 <- rr[1:50]
+
+
 
 
 
 cbind(c(1:nrow(warrior)),warrior[rr,])
 
 ranking <- warrior[rr,]
+
+#前n名再进行排名
+
+r1 <- r1[1:8]
+n_warrior1=8
+warrior2<-warrior[r1,]
+tran2_m<-temp[r1,r1]
+empty2_m<-temp2[r1,r1]
+
+for (i in 1:n_warrior1)
+{
+  for (j in 1:n_warrior1)
+  {   
+    if (i!=j)
+      tran2_m[i,j] <- tran2_m[i,j]/(n_warrior1-1-sum(empty2_m[i,]))
+  }
+  tran2_m[i,i] <- 1-sum(tran2_m[i,])
+}
+
+
+
+
+chain2_m<-new("markovchain",transitionMatrix=tran2_m)
+rank2_v <- steadyStates(chain2_m)          ## 求稳定状态概率
+rr2 <-order(rank2_v[1,],decreasing = TRUE)   ##稳定概率最终排名
+ranking2 <- warrior2[rr2,]
+
 # n <- ranking[,3]>=3.5
 #hp <- ranking[n,]
 #hp
